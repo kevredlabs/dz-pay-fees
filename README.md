@@ -12,22 +12,8 @@ cargo build --release
 Le binaire se trouve ensuite dans `target/release/dz-fees-simple`.
 
 ## Mettre le binaire dans le PATH
-
-### Option 1 · Installation locale via Cargo
 ```bash
 cargo install --path .
-# Assurez-vous que ~/.cargo/bin est dans le PATH
-export PATH="$HOME/.cargo/bin:$PATH"
-```
-
-### Option 2 · Lien symbolique global
-```bash
-sudo ln -s "$(pwd)/target/release/dz-fees-simple" /usr/local/bin/dz-fees-simple
-```
-
-### Option 3 · PATH temporaire vers target/release
-```bash
-export PATH="$(pwd)/target/release:$PATH"
 ```
 
 ## Utilisation
