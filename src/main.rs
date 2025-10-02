@@ -15,7 +15,7 @@ const REVENUE_DISTRIBUTION_PROGRAM_ID: &str = "dzrevZC94tBLwuHw1dyynZxaXTWyp7yoc
 #[derive(Parser, Debug)]
 #[command(author, version, about)]
 struct Cli {
-    /// URL RPC (ex: https://api.mainnet-beta.solana.com)
+    /// RPC URL (ex: https://api.mainnet-beta.solana.com)
     #[arg(long)]
     rpc_url: String,
 
@@ -23,7 +23,7 @@ struct Cli {
     #[arg(long)]
     validator_identity: String,
 
-    /// Keypair payer JSON (requis seulement pour `send`)
+    /// Payer keypair JSON (required only for `send`)
     #[arg(long)]
     payer: Option<String>,
 
@@ -33,14 +33,14 @@ struct Cli {
 
 #[derive(Subcommand, Debug)]
 enum Commands {
-    /// Affiche le solde du compte dépôt (PDA)
+    /// Display the deposit account (PDA) balance
     Balance,
-    /// Envoie un montant en SOL au compte dépôt (PDA)
+    /// Send an amount in SOL to the deposit account (PDA)
     Send {
-        /// Montant à envoyer en SOL (ex: 0.5)
+        /// Amount to send in SOL (ex: 0.5)
         amount: f64,
     },
-    /// Affiche uniquement l'adresse du Deposit PDA
+    /// Display only the Deposit PDA address
     Pda,
 }
 
@@ -68,12 +68,12 @@ fn main() -> Result<()> {
             let lamports = rpc.get_balance(&deposit_pda)?;
             let sol = lamports as f64 / 1e9;
             println!("Deposit PDA: {deposit_pda}");
-            println!("Solde       : {lamports} lamports (~{sol} SOL)");
+            println!("Balance     : {lamports} lamports (~{sol} SOL)");
         }
         Commands::Send { amount } => {
-            let payer_path = cli.payer.ok_or(anyhow!("--payer est requis pour send"))?;
+            let payer_path = cli.payer.ok_or(anyhow!("--payer is required for send"))?;
             let payer = read_keypair_file(&payer_path)
-                .map_err(|e| anyhow!("Impossible de lire le keypair: {e}"))?;
+                .map_err(|e| anyhow!("Unable to read keypair: {e}"))?;
 
             let lamports = (amount * 1e9).round() as u64;
             let ix = system_instruction::transfer(&payer.pubkey(), &deposit_pda, lamports);
@@ -81,7 +81,7 @@ fn main() -> Result<()> {
             let blockhash = rpc.get_latest_blockhash()?;
             let tx = Transaction::new(&[&payer], msg, blockhash);
             let sig = rpc.send_and_confirm_transaction(&tx)?;
-            println!("✅ {amount} SOL envoyés au dépôt {deposit_pda}");
+            println!("✅ {amount} SOL sent to deposit {deposit_pda}");
             println!("Signature: {sig}");
         }
     }

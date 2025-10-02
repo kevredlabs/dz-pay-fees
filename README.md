@@ -1,29 +1,29 @@
 # dz-pay-fees
 
-Petit utilitaire en ligne de commande pour interagir avec le compte dépôt (PDA) d’un programme de distribution de revenus sur Solana.
+Small command-line utility to interact with the deposit account (PDA) of a revenue distribution program on Solana.
 
 ## Installation
-Dans le dépôt :
+In the repository:
 
 ```bash
 cargo build --release
 ```
 
-Le binaire se trouve ensuite dans `target/release/dz-pay-fees`.
+The binary is then located in `target/release/dz-pay-fees`.
 
-## Mettre le binaire dans le PATH
+## Add binary to PATH
 ```bash
 cargo install --path .
 ```
 
-## Utilisation
-La CLI expose trois sous-commandes : `pda`, `balance` et `send`.
+## Usage
+The CLI exposes three subcommands: `pda`, `balance` and `send`.
 
-Arguments globaux obligatoires :
-- `--rpc-url` : URL du RPC (ex : `https://api.mainnet-beta.solana.com`)
-- `--validator-identity` : clé publique (base58) de l’identité du validateur
+Required global arguments:
+- `--rpc-url`: RPC URL (ex: `https://api.mainnet-beta.solana.com`)
+- `--validator-identity`: public key (base58) of the validator identity
 
-### Afficher l’adresse du Deposit PDA
+### Display the Deposit PDA address
 ```bash
 dz-pay-fees \
   --rpc-url https://api.mainnet-beta.solana.com \
@@ -31,7 +31,7 @@ dz-pay-fees \
   pda
 ```
 
-### Consulter le solde du Deposit PDA
+### Check the Deposit PDA balance
 ```bash
 dz-pay-fees \
   --rpc-url https://api.mainnet-beta.solana.com \
@@ -39,26 +39,26 @@ dz-pay-fees \
   balance
 ```
 
-### Envoyer des SOL vers le Deposit PDA
-`send` prend un montant en SOL (positionnel) et requiert `--payer` (chemin vers le keypair JSON).
+### Send SOL to the Deposit PDA
+`send` takes a SOL amount (positional) and requires `--payer` (path to JSON keypair).
 
 ```bash
 dz-pay-fees \
   --rpc-url https://api.mainnet-beta.solana.com \
   --validator-identity 2t53LvZfskcpXkdwLaBnfZLbNgyVHPu2BNFpcRBaEBhM \
-  --payer /chemin/vers/payer.json \
+  --payer /path/to/payer.json \
   send 0.5
 ```
 
-## Détails techniques
-- Le Deposit PDA est dérivé via la seed "solana_validator_deposit" et l’identité du validateur, avec le `program_id` défini dans `REVENUE_DISTRIBUTION_PROGRAM_ID`.
-- Les transactions sont envoyées via `RpcClient::send_and_confirm_transaction`.
-- Les instructions `transfer` proviennent du crate `solana-system-interface`.
+## Technical details
+- The Deposit PDA is derived via the seed "solana_validator_deposit" and the validator identity, with the `program_id` defined in `REVENUE_DISTRIBUTION_PROGRAM_ID`.
+- Transactions are sent via `RpcClient::send_and_confirm_transaction`.
+- The `transfer` instructions come from the `solana-system-interface` crate.
 
-## Dépannage
-- Solde insuffisant : approvisionnez le compte payeur.
-- URL RPC invalide / indisponible : vérifiez `--rpc-url`.
-- Erreurs de versions de crates : exécutez `cargo update` ou supprimez/regenérez `Cargo.lock` si nécessaire (pour un binaire d’application, `Cargo.lock` est normalement committé).
+## Troubleshooting
+- Insufficient balance: fund the payer account.
+- Invalid/unavailable RPC URL: check `--rpc-url`.
+- Crate version errors: run `cargo update` or delete/regenerate `Cargo.lock` if necessary (for an application binary, `Cargo.lock` is normally committed).
 
-## Sécurité
-- Ne commitez jamais de secrets/clé privée. Conservez le fichier keypair (`--payer`) hors du dépôt et protégez les permissions.
+## Security
+- Never commit secrets/private keys. Keep the keypair file (`--payer`) outside the repository and protect permissions.
