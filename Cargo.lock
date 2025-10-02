@@ -1059,7 +1059,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "dz-fees-simple"
+name = "dz-pay-fees"
 version = "0.1.0"
 dependencies = [
  "anyhow",

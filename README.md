@@ -1,4 +1,4 @@
-# dz-fees-simple
+# dz-pay-fees
 
 Petit utilitaire en ligne de commande pour interagir avec le compte dépôt (PDA) d’un programme de distribution de revenus sur Solana.
 
@@ -9,7 +9,7 @@ Dans le dépôt :
 cargo build --release
 ```
 
-Le binaire se trouve ensuite dans `target/release/dz-fees-simple`.
+Le binaire se trouve ensuite dans `target/release/dz-pay-fees`.
 
 ## Mettre le binaire dans le PATH
 ```bash
@@ -25,7 +25,7 @@ Arguments globaux obligatoires :
 
 ### Afficher l’adresse du Deposit PDA
 ```bash
-dz-fees-simple \
+dz-pay-fees \
   --rpc-url https://api.mainnet-beta.solana.com \
   --validator-identity 2t53LvZfskcpXkdwLaBnfZLbNgyVHPu2BNFpcRBaEBhM \
   pda
@@ -33,7 +33,7 @@ dz-fees-simple \
 
 ### Consulter le solde du Deposit PDA
 ```bash
-dz-fees-simple \
+dz-pay-fees \
   --rpc-url https://api.mainnet-beta.solana.com \
   --validator-identity 2t53LvZfskcpXkdwLaBnfZLbNgyVHPu2BNFpcRBaEBhM \
   balance
@@ -43,7 +43,7 @@ dz-fees-simple \
 `send` prend un montant en SOL (positionnel) et requiert `--payer` (chemin vers le keypair JSON).
 
 ```bash
-dz-fees-simple \
+dz-pay-fees \
   --rpc-url https://api.mainnet-beta.solana.com \
   --validator-identity 2t53LvZfskcpXkdwLaBnfZLbNgyVHPu2BNFpcRBaEBhM \
   --payer /chemin/vers/payer.json \
