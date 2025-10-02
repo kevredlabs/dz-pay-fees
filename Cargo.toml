@@ -1,0 +1,11 @@
+[package]
+name = "dz-fees-simple"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1"
+clap = { version = "4", features = ["derive"] }
+solana-sdk = "2"
+solana-client = "2"
+solana-system-interface = { version = "1", features = ["bincode"] }
